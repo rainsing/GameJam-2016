@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Character : MonoBehaviour 
@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 	public Sprite turned0;
 	public Sprite turned1;
 
-	public float speed = -2.0f;
+	public float speed = 2.0f;
 	public float animInterval = 0.3f;
 	public float turnDuration = 2.0f;
 
@@ -18,27 +18,37 @@ public class Character : MonoBehaviour
 	private bool m_Turning = false;
 	private float m_TurnTimer;
 
+	public GameObject Door;
+	private Vector3 _faceDir = Vector3.zero;
+
+	private int _moveState = 0;//0=stop;1=walking;2=turn;
+
 	void Awake ()
 	{
 		m_SpriteRenderer = GetComponent<SpriteRenderer> ();
 	}
 
+	void Start()
+	{
+		_faceDir = Door.transform.position - transform.position;
+		_faceDir.y = 0.0f;
+		_faceDir.Normalize ();
+	}
+
 	void Update ()
 	{
-		m_AccumulatedTime += Time.deltaTime;
-		if (m_AccumulatedTime > animInterval) 
-		{
-			m_EvenFrame = !m_EvenFrame;
-			m_AccumulatedTime -= animInterval;
+		if (_moveState == 0) {
+			m_AccumulatedTime += Time.deltaTime;
+			if (m_AccumulatedTime > animInterval) {
+				m_EvenFrame = !m_EvenFrame;
+				m_AccumulatedTime -= animInterval;
 
-			if (m_EvenFrame) {
-				this.transform.position += new Vector3 (0.0f, 0.1f, 0.0f);
-			} 
-			else 
-			{
-				this.transform.position += new Vector3 (0.0f, -0.1f, 0.0f);
+				if (m_EvenFrame) {
+					this.transform.position += new Vector3 (0.0f, 0.1f, 0.0f);
+				} else {
+					this.transform.position += new Vector3 (0.0f, -0.1f, 0.0f);
+				}
 			}
-		}
 
 		if (m_Turning) 
 		{
@@ -52,12 +62,17 @@ public class Character : MonoBehaviour
 			Camera.main.transform.rotation * Vector3.up
 		);
 			
-		this.transform.position += new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
+			this.transform.position += speed * Time.deltaTime * _faceDir;
 
-		if (m_Turning)
-			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
-		else
-			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
+			if (m_Turning)
+				m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
+			else
+				m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
+		}
+		else if (_moveState == 1)
+		{
+			m_AccumulatedTime = 0;			
+		}
 	}
 
 	void OnMouseDown ()
@@ -67,5 +82,15 @@ public class Character : MonoBehaviour
 			m_Turning = true;
 			m_TurnTimer = turnDuration;
 		}
+	}
+
+	public void Walk()
+	{
+		_moveState = 1;
+	}
+
+	public void Stop()
+	{
+		_moveState = 0;
 	}
 }
