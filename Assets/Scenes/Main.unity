@@ -219,7 +219,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1 &393958735
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +994,9 @@ MonoBehaviour:
   walkTime:
   - 0.8
   level: 0
-  faceArray: []
+  faceArray:
+  - {fileID: 21300000, guid: b313d3d9030c9473c8c8b43994fa8dff, type: 3}
+  - {fileID: 21300000, guid: 96c3a01afd8584b81afecb4b4b50465d, type: 3}
   faceOffset: {x: 0, y: 0, z: 0}
   SpawnPoint: {fileID: 1635183080}
   EndPoint: {fileID: 135579798}

@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
 	public float turnDuration = 2.0f;
 
 	private SpriteRenderer m_SpriteRenderer;
+	private SpriteRenderer m_SpriteFace;
 	private float m_AccumulatedTime = 0.0f;
 	private bool m_EvenFrame = true;
 	private bool m_Turning = false;
@@ -25,11 +26,24 @@ public class Character : MonoBehaviour
 
 	private CharacterBehaviour gameSetttings;
 
+	private int _index;
+	public int Index
+	{
+		get { return _index; }
+		set { _index = value; }
+	}
+
 
 
 	void Awake ()
 	{
 		m_SpriteRenderer = GetComponent<SpriteRenderer> ();
+		m_SpriteFace = GetComponentsInChildren<SpriteRenderer> ()[1];
+	}
+
+	public void SetFace(Sprite face)
+	{
+		m_SpriteFace.sprite = face;
 	}
 
 	void Start()
@@ -116,6 +130,7 @@ public class Character : MonoBehaviour
 		Vector3 dir1 = transform.position - gameSetttings.EndPoint.transform.position;
 		if (Vector3.Dot (dir0, dir1) < 0) {
 			transform.position -= _faceDir * gameSetttings.SpawnCount * gameSetttings.SpawnDistance;
+			gameSetttings.Restart (Index);
 		}
 	}
 }

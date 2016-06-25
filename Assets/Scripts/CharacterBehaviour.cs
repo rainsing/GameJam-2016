@@ -39,6 +39,8 @@ public class CharacterBehaviour : MonoBehaviour {
 		for (int i = 0; i < SpawnCount; i++) {
 			spawnPos -= SpawnDistance * spawnDir;
 			characters[i] = GameObject.Instantiate (characterPrefab, spawnPos, characterPrefab.transform.rotation) as GameObject;
+			characters [i].GetComponent<Character> ().Index = i;
+			Restart (i);
 		}
 
 
@@ -83,5 +85,11 @@ public class CharacterBehaviour : MonoBehaviour {
 				_accTime = 0.0f;
 				_moveOrWait = false;
 			}
+	}
+
+	public void Restart(int index)
+	{
+		int faceID = Mathf.FloorToInt(Random.value * faceArray.Length - 0.0001f);
+		characters [index].GetComponent<Character> ().SetFace (faceArray [faceID]);
 	}
 }
