@@ -7,6 +7,7 @@ public class Global : MonoBehaviour {
 	static public float TimeBar{ get; set;}
 	static public int Score{ get; set;}
 
+	static public float WallProgress{ get; set;}
 	// Use this for initialization
 	void Start () {
 		
