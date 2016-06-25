@@ -10,10 +10,13 @@ public class Character : MonoBehaviour
 
 	public float speed = -2.0f;
 	public float animInterval = 0.3f;
+	public float turnDuration = 2.0f;
 
 	private SpriteRenderer m_SpriteRenderer;
 	private float m_AccumulatedTime = 0.0f;
 	private bool m_EvenFrame = true;
+	private bool m_Turning = false;
+	private float m_TurnTimer;
 
 	void Awake ()
 	{
@@ -37,6 +40,13 @@ public class Character : MonoBehaviour
 			}
 		}
 
+		if (m_Turning) 
+		{
+			m_TurnTimer -= Time.deltaTime;
+			if (m_TurnTimer <= 0.0f)
+				m_Turning = false;
+		}
+
 		this.transform.LookAt (
 			transform.position + Camera.main.transform.rotation * Vector3.forward, 
 			Camera.main.transform.rotation * Vector3.up
@@ -44,6 +54,18 @@ public class Character : MonoBehaviour
 			
 		this.transform.position += new Vector3 (speed * Time.deltaTime, 0.0f, 0.0f);
 
-		m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
+		if (m_Turning)
+			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
+		else
+			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
+	}
+
+	void OnMouseDown ()
+	{
+		if (!m_Turning) 
+		{
+			m_Turning = true;
+			m_TurnTimer = turnDuration;
+		}
 	}
 }
