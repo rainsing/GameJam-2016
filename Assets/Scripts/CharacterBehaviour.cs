@@ -111,9 +111,6 @@ public class CharacterBehaviour : MonoBehaviour {
 	{
 		//check head return
 		Vector3 dir0 = SpawnPoint.transform.position - EndPoint.transform.position;
-		Vector3 faceDir = Door.transform.position - SpawnPoint.transform.position;
-		faceDir.y = 0.0f;
-		faceDir.Normalize ();
 
 		int index = _realQueue [0];
 		GameObject curCharacter = characters [index];
@@ -121,8 +118,9 @@ public class CharacterBehaviour : MonoBehaviour {
 		Vector3 dir1 = curCharacter.transform.position - EndPoint.transform.position;
 
 		if (Vector3.Dot (dir0, dir1) < 0) {
-			int lastIndex = _realQueue [SpawnCount - 1];
-			curCharacter.transform.position = characters[lastIndex].transform.position - SpawnDistance * faceDir;
+			//int lastIndex = _realQueue [SpawnCount - 1];
+			//curCharacter.transform.position = characters[lastIndex].transform.position - SpawnDistance * faceDir;
+			KickBack(index);
 			Restart (index);
 			RestartPos (index);
 		}
@@ -147,6 +145,19 @@ public class CharacterBehaviour : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void KickBack(int index)
+	{
+		Vector3 faceDir = Door.transform.position - SpawnPoint.transform.position;
+		faceDir.y = 0.0f;
+		faceDir.Normalize ();
+
+		int lastIndex = _realQueue [SpawnCount - 1];
+		GameObject curObj = characters [index];
+		curObj.transform.position = characters[lastIndex].transform.position - SpawnDistance * faceDir;
+		Restart (index);
+		RestartPos (index);
 	}
 
 	public void Restart(int index)
@@ -194,6 +205,10 @@ public class CharacterBehaviour : MonoBehaviour {
 	void OnCorrect(int oldIndex, int newIndex)
 	{
 		Debug.Log ("Correct!!!!!");
+		//after short time with face, return back
+		KickBack(oldIndex);
+		KickBack (newIndex);
+
 	}
 
 	void OnWrong(int oldIndex, int newIndex)
