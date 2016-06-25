@@ -18,10 +18,14 @@ public class Character : MonoBehaviour
 	private bool m_Turning = false;
 	private float m_TurnTimer;
 
-	public GameObject Door;
+	private GameObject Door;
 	private Vector3 _faceDir = Vector3.zero;
 
 	private int _moveState = 0;//0=stop;1=walking;2=turn;
+
+	private CharacterBehaviour gameSetttings;
+
+
 
 	void Awake ()
 	{
@@ -30,6 +34,8 @@ public class Character : MonoBehaviour
 
 	void Start()
 	{
+		gameSetttings = GameObject.FindGameObjectWithTag ("GameController").GetComponent<CharacterBehaviour>();
+		Door = gameSetttings.Door;
 		_faceDir = Door.transform.position - transform.position;
 		_faceDir.y = 0.0f;
 		_faceDir.Normalize ();
@@ -93,5 +99,12 @@ public class Character : MonoBehaviour
 	public void Stop()
 	{
 		_moveState = 0;
+	}
+
+	void ForceTurnBack()
+	{
+		if (m_Turning) {
+			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
+		}
 	}
 }

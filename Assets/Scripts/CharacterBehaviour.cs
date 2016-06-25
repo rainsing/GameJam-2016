@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CharacterBehaviour : MonoBehaviour {
 
+	public GameObject characterPrefab;
 	GameObject[] characters;
 	public float[] waitTime;
 	public float[] walkTime;
@@ -14,9 +15,34 @@ public class CharacterBehaviour : MonoBehaviour {
 	float curWaitTime;
 	float curWalkTime;
 
+	public Sprite[] faceArray;
+	public Vector3 faceOffset;
+
+	public GameObject SpawnPoint;
+	public GameObject Door;
+	public float SpawnDistance;
+	public int SpawnCount;
+
+	private Vector3 spawnDir;
+
+
 	// Use this for initialization
 	void Start () {
-		characters = GameObject.FindGameObjectsWithTag ("Player");
+		Vector3 startPos = Door.transform.position;
+		spawnDir = startPos - SpawnPoint.transform.position;
+		spawnDir.y = 0;
+		spawnDir.Normalize ();
+
+		characters = new GameObject[SpawnCount];
+		Vector3 spawnPos = startPos + new Vector3(0,3.03f, 0);
+		for (int i = 0; i < SpawnCount; i++) {
+			spawnPos -= SpawnDistance * spawnDir;
+			characters[i] = GameObject.Instantiate (characterPrefab, spawnPos, characterPrefab.transform.rotation) as GameObject;
+		}
+
+
+		
+		//characters = GameObject.FindGameObjectsWithTag ("Player");
 	}
 	
 	// Update is called once per frame
