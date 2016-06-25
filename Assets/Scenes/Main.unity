@@ -990,7 +990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPrefab: {fileID: 130518, guid: 60c05694bfb254e40b344a92b1754d0f, type: 2}
   waitTime:
-  - 4
+  - 3
   walkTime:
   - 0.8
   level: 0

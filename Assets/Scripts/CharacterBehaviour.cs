@@ -103,6 +103,50 @@ public class CharacterBehaviour : MonoBehaviour {
 				_accTime = 0.0f;
 				_moveOrWait = false;
 			}
+
+		UpdateQueue ();
+	}
+
+	void UpdateQueue()
+	{
+		//check head return
+		Vector3 dir0 = SpawnPoint.transform.position - EndPoint.transform.position;
+		Vector3 faceDir = Door.transform.position - SpawnPoint.transform.position;
+		faceDir.y = 0.0f;
+		faceDir.Normalize ();
+
+		int index = _realQueue [0];
+		GameObject curCharacter = characters [index];
+
+		Vector3 dir1 = curCharacter.transform.position - EndPoint.transform.position;
+
+		if (Vector3.Dot (dir0, dir1) < 0) {
+			int lastIndex = _realQueue [SpawnCount - 1];
+			curCharacter.transform.position = characters[lastIndex].transform.position - SpawnDistance * faceDir;
+			Restart (index);
+			RestartPos (index);
+		}
+
+		//check refilling
+		if (!_moveOrWait) {
+			for (int i = 1; i < SpawnCount; i++) {
+				int frontId = _realQueue [i - 1];
+				int curId = _realQueue [i];
+				GameObject frontObj = characters [frontId];
+				GameObject curObj = characters [curId];
+				Vector3 vDist = frontObj.transform.position - curObj.transform.position;
+				if (vDist.sqrMagnitude > SpawnDistance * SpawnDistance) {
+					//move back obj forward
+					for (int j = i; j < SpawnCount; j++) {
+						int curIndex = _realQueue [j];
+						characters [curIndex].GetComponent<Character> ().Walk ();
+					}
+					break;
+				} else {
+					characters [curId].GetComponent<Character> ().Stop ();
+				}
+			}
+		}
 	}
 
 	public void Restart(int index)
@@ -121,8 +165,12 @@ public class CharacterBehaviour : MonoBehaviour {
 		int queueIndex = curCharacter.QueueIndex;
 		for (int i = queueIndex + 1; i < SpawnCount; i++) {
 			_realQueue [i - 1] = _realQueue [i];
+			int moveIndex = _realQueue[i];
+			Character moveCharacter = characters [moveIndex].GetComponent<Character> ();
+			moveCharacter.QueueIndex = i - 1;			 
 		}
-		_realQueue [SpawnCount] = curCharacter.Index;		
+		_realQueue [SpawnCount - 1] = curCharacter.Index;
+		curCharacter.QueueIndex = SpawnCount - 1;
 	}
 
 	public void SetCurPick(int index)

@@ -119,7 +119,7 @@ public class Character : MonoBehaviour
 		else
 			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
 
-		CheckPos ();
+		//CheckPos ();
 	}
 
 	void OnMouseDown ()
