@@ -8,6 +8,7 @@ public class wallEffect : MonoBehaviour {
 	public GameObject person_end;
 
 	GameObject person = null;
+	public bool isMesh = false;
 	// Use this for initialization
 	void Start () {
 	
@@ -58,7 +59,12 @@ public class wallEffect : MonoBehaviour {
 
 
 			Global.WallProgress += 0.05f;
-			GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
+			if (isMesh) {
+				//GetComponent<MeshRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
+			} else {
+				GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
+			}
+
 			if (Global.WallProgress > 1.0f) {
 				Global.WallProgress = 0.0f;
 			}
