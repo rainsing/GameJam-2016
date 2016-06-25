@@ -8,12 +8,22 @@ public class CharacterBehaviour : MonoBehaviour {
 	public float[] waitTime;
 	public float[] walkTime;
 	public int level = 0;
-	bool _moveOrWait = false;
+	bool _moveOrWait = true;
 	bool _forceWait = false;
 	float _accTime = 0.0f;
 	bool _levelInitialized = false;
 	float curWaitTime;
 	float curWalkTime;
+
+	[System.Serializable]
+	public class BodySprites
+	{
+		public Sprite bodySprite0;
+		public Sprite bodySprite1;
+		public Sprite bodySprite2;
+		public Sprite bodySprite3;
+	}
+	public BodySprites[] bodyArray;
 
 	public Sprite[] faceArray;
 	public Vector3 faceOffset;
@@ -26,6 +36,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	private Vector3 spawnDir;
 
+	private int _oldCharacterIndex = -1;
+
+	private int[] _realQueue;
+
 
 	// Use this for initialization
 	void Start () {
@@ -35,12 +49,16 @@ public class CharacterBehaviour : MonoBehaviour {
 		spawnDir.Normalize ();
 
 		characters = new GameObject[SpawnCount];
+		_realQueue = new int[SpawnCount];
 		Vector3 spawnPos = startPos + new Vector3(0,3.03f, 0);
 		for (int i = 0; i < SpawnCount; i++) {
 			spawnPos -= SpawnDistance * spawnDir;
 			characters[i] = GameObject.Instantiate (characterPrefab, spawnPos, characterPrefab.transform.rotation) as GameObject;
 			characters [i].GetComponent<Character> ().Index = i;
 			Restart (i);
+			_realQueue [i] = i;
+			characters [i].GetComponent<Character> ().QueueIndex = i;
+			characters [i].GetComponent<Character> ().Walk ();
 		}
 
 
@@ -90,6 +108,52 @@ public class CharacterBehaviour : MonoBehaviour {
 	public void Restart(int index)
 	{
 		int faceID = Mathf.FloorToInt(Random.value * faceArray.Length - 0.0001f);
-		characters [index].GetComponent<Character> ().SetFace (faceArray [faceID]);
+		Character curCharacter = characters [index].GetComponent<Character> ();
+		curCharacter.SetFace (faceArray [faceID], faceID);
+		int bodyID = Mathf.FloorToInt (Random.value * bodyArray.Length - 0.0001f);
+		BodySprites bodySprites = bodyArray [bodyID];
+		curCharacter.SetBody (bodySprites.bodySprite0, bodySprites.bodySprite1, bodySprites.bodySprite2, bodySprites.bodySprite3);
+	}
+
+	public void RestartPos(int index)
+	{
+		Character curCharacter = characters [index].GetComponent<Character> ();
+		int queueIndex = curCharacter.QueueIndex;
+		for (int i = queueIndex + 1; i < SpawnCount; i++) {
+			_realQueue [i - 1] = _realQueue [i];
+		}
+		_realQueue [SpawnCount] = curCharacter.Index;		
+	}
+
+	public void SetCurPick(int index)
+	{
+		if (_oldCharacterIndex == -1) {
+			_oldCharacterIndex = index;
+			return;
+		} 
+
+		Character curCharacter = characters [index].GetComponent<Character> ();
+		Character oldCharacter = characters [_oldCharacterIndex].GetComponent<Character> ();
+		if (curCharacter.FaceIndex == oldCharacter.FaceIndex) {
+			OnCorrect (_oldCharacterIndex, index);
+			_oldCharacterIndex = -1;
+		} else {
+			OnWrong (_oldCharacterIndex, index);
+			_oldCharacterIndex = -1;
+		}
+	}
+
+	void OnCorrect(int oldIndex, int newIndex)
+	{
+		Debug.Log ("Correct!!!!!");
+	}
+
+	void OnWrong(int oldIndex, int newIndex)
+	{
+		Debug.Log ("Wrong!!!!!");
+		Character curCharacter = characters [newIndex].GetComponent<Character> ();
+		Character oldCharacter = characters [oldIndex].GetComponent<Character> ();
+		curCharacter.ForceTurnBack ();
+		oldCharacter.ForceTurnBack ();
 	}
 }
