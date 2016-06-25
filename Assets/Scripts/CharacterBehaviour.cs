@@ -19,6 +19,7 @@ public class CharacterBehaviour : MonoBehaviour {
 	public Vector3 faceOffset;
 
 	public GameObject SpawnPoint;
+	public GameObject EndPoint;
 	public GameObject Door;
 	public float SpawnDistance;
 	public int SpawnCount;

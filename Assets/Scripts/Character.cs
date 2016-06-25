@@ -80,6 +80,8 @@ public class Character : MonoBehaviour
 			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
 		else
 			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
+
+		CheckPos ();
 	}
 
 	void OnMouseDown ()
@@ -105,6 +107,15 @@ public class Character : MonoBehaviour
 	{
 		if (m_Turning) {
 			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
+		}
+	}
+
+	public void CheckPos()
+	{
+		Vector3 dir0 = gameSetttings.SpawnPoint.transform.position - gameSetttings.EndPoint.transform.position;
+		Vector3 dir1 = transform.position - gameSetttings.EndPoint.transform.position;
+		if (Vector3.Dot (dir0, dir1) < 0) {
+			transform.position -= _faceDir * gameSetttings.SpawnCount * gameSetttings.SpawnDistance;
 		}
 	}
 }
