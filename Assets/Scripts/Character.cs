@@ -53,6 +53,7 @@ public class Character : MonoBehaviour
 		_faceDir = Door.transform.position - transform.position;
 		_faceDir.y = 0.0f;
 		_faceDir.Normalize ();
+		m_SpriteFace.enabled = false;
 	}
 
 	void Update ()
@@ -86,8 +87,10 @@ public class Character : MonoBehaviour
 		if (m_Turning) 
 		{
 			m_TurnTimer -= Time.deltaTime;
-			if (m_TurnTimer <= 0.0f)
+			if (m_TurnTimer <= 0.0f) {
 				m_Turning = false;
+				m_SpriteFace.enabled = false;
+			}
 		}
 
 		if (m_Turning)
@@ -104,6 +107,7 @@ public class Character : MonoBehaviour
 		{
 			m_Turning = true;
 			m_TurnTimer = turnDuration;
+			m_SpriteFace.enabled = true;
 		}
 	}
 

@@ -990,9 +990,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPrefab: {fileID: 130518, guid: 60c05694bfb254e40b344a92b1754d0f, type: 2}
   waitTime:
-  - 1
-  walkTime:
   - 0.8
+  walkTime:
+  - 4
   level: 0
   faceArray:
   - {fileID: 21300000, guid: b313d3d9030c9473c8c8b43994fa8dff, type: 3}
