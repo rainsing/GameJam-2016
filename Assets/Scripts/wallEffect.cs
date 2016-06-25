@@ -52,9 +52,16 @@ public class wallEffect : MonoBehaviour {
 			Vector3 scale = start_scale+(end_scale - start_scale)*random;
 			GameObject.Destroy (person);
 			person = GameObject.Instantiate (person_start);
+
+			if (isMesh) {
+				person.transform.parent = transform;
+			}
 			//person.transform.Translate (pos);
 			person.transform.position = pos;
 			person.transform.localScale = scale;
+			person.transform.localRotation = person_start.transform.localRotation;
+
+
 			person.SetActive (true);
 
 
