@@ -37,18 +37,31 @@ public class Character : MonoBehaviour
 
 	void Update ()
 	{
-		if (_moveState == 0) {
+		if (_moveState == 0) 
+		{
 			m_AccumulatedTime += Time.deltaTime;
-			if (m_AccumulatedTime > animInterval) {
+			if (m_AccumulatedTime > animInterval) 
+			{
 				m_EvenFrame = !m_EvenFrame;
 				m_AccumulatedTime -= animInterval;
 
-				if (m_EvenFrame) {
+				if (m_EvenFrame) 
 					this.transform.position += new Vector3 (0.0f, 0.1f, 0.0f);
-				} else {
+				else 
 					this.transform.position += new Vector3 (0.0f, -0.1f, 0.0f);
-				}
 			}
+
+			this.transform.LookAt (
+				transform.position + Camera.main.transform.rotation * Vector3.forward, 
+				Camera.main.transform.rotation * Vector3.up
+			);
+
+			this.transform.position += speed * Time.deltaTime * _faceDir;
+		}
+		else if (_moveState == 1)
+		{
+			m_AccumulatedTime = 0;			
+		}
 
 		if (m_Turning) 
 		{
@@ -57,22 +70,10 @@ public class Character : MonoBehaviour
 				m_Turning = false;
 		}
 
-		this.transform.LookAt (
-			transform.position + Camera.main.transform.rotation * Vector3.forward, 
-			Camera.main.transform.rotation * Vector3.up
-		);
-			
-			this.transform.position += speed * Time.deltaTime * _faceDir;
-
-			if (m_Turning)
-				m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
-			else
-				m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
-		}
-		else if (_moveState == 1)
-		{
-			m_AccumulatedTime = 0;			
-		}
+		if (m_Turning)
+			m_SpriteRenderer.sprite = m_EvenFrame ? turned0 : turned1;
+		else
+			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
 	}
 
 	void OnMouseDown ()
