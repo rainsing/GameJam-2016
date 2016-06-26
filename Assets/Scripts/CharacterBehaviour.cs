@@ -254,6 +254,8 @@ public class CharacterBehaviour : MonoBehaviour {
 			if (Global.WallProgress >= 1.0f)
 				OnLevelUp ();
 		}
+
+		GameObject.Find ("SoundCorrect").GetComponent<AudioSource> ().Play ();
 			
 	}
 
@@ -266,6 +268,8 @@ public class CharacterBehaviour : MonoBehaviour {
 		oldCharacter.ForceTurnBack ();
 
 		bottomHUD.AddBonus (-0.25f * timebarBonus);
+
+		GameObject.Find ("SoundWrong").GetComponent<AudioSource> ().Play ();
 	}
 
 	void OnLevelUp()
