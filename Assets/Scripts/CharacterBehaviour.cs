@@ -124,19 +124,19 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		_accTime += Time.deltaTime;
 
+		// Only the first one in the queue moves according to current level's wait time / walk time.
+		Character firstChar = characters [_realQueue [0]].GetComponent<Character> ();
+		float distanceToEndPoint = (firstChar.transform.position - EndPoint.transform.position).sqrMagnitude;
+
 		if (_moveOrWait == false && !_forceWait && _accTime > curWaitTime) 
 		{
-			// Only the first one in the queue moves according to current level's wait time / walk time.
-			characters [_realQueue [0]].GetComponent<Character> ().Walk ();
-
+			firstChar.Walk ();
 			_accTime = 0.0f;
 			_moveOrWait = true;
 		}
-		else if (_moveOrWait == true && (_forceWait || _accTime > curWalkTime))
+		else if (_moveOrWait == true && (_forceWait || _accTime > curWalkTime) && distanceToEndPoint < 16.0f)
 		{
-			// Only the first one in the queue moves according to current level's wait time / walk time.
-			characters [_realQueue [0]].GetComponent<Character> ().Stop ();
-
+			firstChar.Stop ();
 			_accTime = 0.0f;
 			_moveOrWait = false;
 		}
@@ -302,6 +302,8 @@ public class CharacterBehaviour : MonoBehaviour {
 		if (!gameOvering) {
 			gameoverUI.SetActive (true);
 			gameOvering = true;
+
+			GameObject.Find ("music").GetComponent<AudioSource> ().Stop ();
 		}
 	}
 
@@ -312,6 +314,8 @@ public class CharacterBehaviour : MonoBehaviour {
 			level = 0;
 			_levelInitialized = false;
 			gameoverUI.SetActive (false);
+
+			GameObject.Find ("music").GetComponent<AudioSource> ().Play ();
 		}
 	}
 }
