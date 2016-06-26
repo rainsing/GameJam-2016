@@ -1465,7 +1465,7 @@ MonoBehaviour:
   levelUI: {fileID: 2055870460}
   gameoverUI: {fileID: 2038304893}
   levelSettings:
-  - timebarSpeed: 0.2
+  - timebarSpeed: 0.02
     wallSpeed: 0.05
     waitTime: 4
     walkTime: 1
