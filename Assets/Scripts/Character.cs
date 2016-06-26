@@ -128,7 +128,9 @@ public class Character : MonoBehaviour
 		else
 			m_SpriteRenderer.sprite = m_EvenFrame ? normal0 : normal1;
 
-		//CheckPos ();
+		// Sort the sprites by 'depth'.
+		m_SpriteRenderer.sortingOrder = (int)(m_SpriteRenderer.transform.position.x * 1000.0f);
+		m_SpriteFace.sortingOrder = (int)(m_SpriteFace.transform.position.x * 1000.0f);
 	}
 
 	void OnMouseDown ()
