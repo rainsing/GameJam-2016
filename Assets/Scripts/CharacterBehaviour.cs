@@ -250,7 +250,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	void OnCorrect(int oldIndex, int newIndex)
 	{
-		Debug.Log ("Correct!!!!!");
+		//Debug.Log ("Correct!!!!!");
 		//after short time with face, return back
 		Character curCharacter = characters [newIndex].GetComponent<Character> ();
 		Character oldCharacter = characters [oldIndex].GetComponent<Character> ();
@@ -273,7 +273,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	void OnWrong(int oldIndex, int newIndex)
 	{
-		Debug.Log ("Wrong!!!!!");
+		//Debug.Log ("Wrong!!!!!");
 		Character curCharacter = characters [newIndex].GetComponent<Character> ();
 		Character oldCharacter = characters [oldIndex].GetComponent<Character> ();
 		curCharacter.ForceTurnBack ();
@@ -293,7 +293,7 @@ public class CharacterBehaviour : MonoBehaviour {
 			level = levelSettings.Length - 1;
 		_levelInitialized = false;
 
-		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+		TextMesh levelText = levelUI.GetComponentInChildren<TextMesh> ();
 		levelText.text = (level + 1).ToString ();
 	}
 
