@@ -7,7 +7,7 @@ public class BottomHUD : MonoBehaviour {
 	private TextMesh _scoreText;
 	private int _totalScore = 0;
 	private int _oldScore = 0;
-	static private float _barHeight = 6.0f;
+	//static private float _barHeight = 6.0f;
 
 	private float timebarSpeed = 0.02f;
 	public float TimeBarSpeed {
