@@ -315,7 +315,7 @@ public class CharacterBehaviour : MonoBehaviour {
 			_levelInitialized = false;
 			gameoverUI.SetActive (false);
 
-			TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+			TextMesh levelText = levelUI.GetComponentInChildren<TextMesh> ();
 			levelText.text = (level + 1).ToString ();
 			bottomHUD.Reset ();
 			Global.WallFace = null;
