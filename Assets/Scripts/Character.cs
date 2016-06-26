@@ -193,4 +193,9 @@ public class Character : MonoBehaviour
 			_waitingForKick = true;
 		}
 	}
+
+	public bool IsWalking ()
+	{
+		return _moveState;
+	}
 }
