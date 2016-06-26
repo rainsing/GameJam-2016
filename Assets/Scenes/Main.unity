@@ -1137,7 +1137,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377169389}
   m_LocalRotation: {x: 0, y: 0, z: -0.043071225, w: 0.999072}
-  m_LocalPosition: {x: -17.16, y: 10.95, z: 0}
+  m_LocalPosition: {x: -16.95, y: 10.88, z: -0}
   m_LocalScale: {x: 2, y: 1, z: 20}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.9371}
   m_Children: []
@@ -1183,17 +1183,14 @@ MonoBehaviour:
     wallSpeed: 0.05
     waitTime: 4
     walkTime: 1
-    faceCount: 2
   - timebarSpeed: 0.04
     wallSpeed: 0.04
     waitTime: 3
     walkTime: 1.5
-    faceCount: 2
   - timebarSpeed: 0.06
     wallSpeed: 0.03
     waitTime: 2.5
     walkTime: 2
-    faceCount: 2
   characterPrefab: {fileID: 130518, guid: 60c05694bfb254e40b344a92b1754d0f, type: 2}
   level: 0
   bodyArray:
@@ -1328,8 +1325,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1671407519}
   m_LocalRotation: {x: -0.4999987, y: -0.5000013, z: -0.5000014, w: 0.4999986}
-  m_LocalPosition: {x: -6.8, y: 9.38, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 0.07}
+  m_LocalPosition: {x: -7, y: 9.7, z: -2.6}
+  m_LocalScale: {x: 7.4, y: 1, z: 0.07}
   m_LocalEulerAnglesHint: {x: -90, y: -90.0003, z: 0}
   m_Children: []
   m_Father: {fileID: 880452251}
@@ -1344,7 +1341,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 636258819e1594c10842d1addf63080c, type: 2}
+  - {fileID: 2100000, guid: 858e947bd00a44194abdd2e24fecec2a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
