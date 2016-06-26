@@ -3,6 +3,12 @@ using System.Collections;
 
 public class CharacterBehaviour : MonoBehaviour {
 
+	public GameObject bottomUI;
+	BottomHUD bottomHUD;
+	public int scoreSpeed = 100;
+	public float[] timebarSpeed;
+	public float timebarBonus = 0.2f;
+
 	public GameObject characterPrefab;
 	GameObject[] characters;
 	public float[] waitTime;
@@ -43,6 +49,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
+
 		Vector3 startPos = Door.transform.position;
 		spawnDir = startPos - SpawnPoint.transform.position;
 		spawnDir.y = 0;
@@ -73,9 +81,10 @@ public class CharacterBehaviour : MonoBehaviour {
 			_forceWait = false;
 			_moveOrWait = false;
 
-			if (level < waitTime.Length && level < walkTime.Length) {
+			if (level < waitTime.Length && level < walkTime.Length && level < timebarSpeed.Length) {
 				curWaitTime = waitTime [level];
 				curWalkTime = walkTime [level];
+				bottomHUD.TimeBarSpeed = timebarSpeed [level];
 			}
 			_levelInitialized = true;
 
@@ -211,6 +220,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		curCharacter.PrepareForKick ();
 		oldCharacter.PrepareForKick ();
+
+		bottomHUD.AddBonus (timebarBonus);
+		bottomHUD.AddScore (scoreSpeed);
 	}
 
 	void OnWrong(int oldIndex, int newIndex)
@@ -220,5 +232,7 @@ public class CharacterBehaviour : MonoBehaviour {
 		Character oldCharacter = characters [oldIndex].GetComponent<Character> ();
 		curCharacter.ForceTurnBack ();
 		oldCharacter.ForceTurnBack ();
+
+		bottomHUD.AddBonus (-0.25f * timebarBonus);
 	}
 }
