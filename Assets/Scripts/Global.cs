@@ -8,6 +8,8 @@ public class Global : MonoBehaviour {
 	static public int Score{ get; set;}
 
 	static public float WallProgress{ get; set;}
+	static public bool ChangeWallFace{ get; set;}
+	static public Sprite WallFace{ get; set;}
 	// Use this for initialization
 	void Start () {
 		

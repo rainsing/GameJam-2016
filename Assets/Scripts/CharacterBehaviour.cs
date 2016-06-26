@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CharacterBehaviour : MonoBehaviour {
@@ -60,6 +60,9 @@ public class CharacterBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
+
+		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+		levelText.text = level.ToString ();
 
 		Vector3 startPos = Door.transform.position;
 		spawnDir = startPos - SpawnPoint.transform.position;
@@ -205,12 +208,16 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void SetCurPick(int index)
 	{
+		Character curCharacter = characters [index].GetComponent<Character> ();
+		Global.ChangeWallFace = true;
+		Global.WallFace = faceArray[curCharacter.FaceIndex];
+
 		if (_oldCharacterIndex == -1 || _oldCharacterIndex == index) {
 			_oldCharacterIndex = index;
 			return;
 		} 
 
-		Character curCharacter = characters [index].GetComponent<Character> ();
+
 		Character oldCharacter = characters [_oldCharacterIndex].GetComponent<Character> ();
 		if (curCharacter.FaceIndex == oldCharacter.FaceIndex) {
 			OnCorrect (_oldCharacterIndex, index);
@@ -219,6 +226,8 @@ public class CharacterBehaviour : MonoBehaviour {
 			OnWrong (_oldCharacterIndex, index);
 			_oldCharacterIndex = -1;
 		}
+
+
 	}
 
 	void OnCorrect(int oldIndex, int newIndex)
@@ -239,6 +248,7 @@ public class CharacterBehaviour : MonoBehaviour {
 			if (Global.WallProgress >= 1.0f)
 				OnLevelUp ();
 		}
+			
 	}
 
 	void OnWrong(int oldIndex, int newIndex)
