@@ -73,9 +73,11 @@ public class wallEffect : MonoBehaviour {
 				GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 			}
 
+			/*
 			if (Global.WallProgress > 1.0f) {
 				Global.WallProgress = 0.0f;
 			}
+			*/
 		}
 	
 	}

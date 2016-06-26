@@ -8,6 +8,9 @@ public class CharacterBehaviour : MonoBehaviour {
 	public int scoreSpeed = 100;
 	public float timebarBonus = 0.2f;
 
+	public GameObject levelUI;
+
+
 	[System.Serializable]
 	public class LevelSettings
 	{
@@ -231,8 +234,11 @@ public class CharacterBehaviour : MonoBehaviour {
 		bottomHUD.AddBonus (timebarBonus);
 		bottomHUD.AddScore (scoreSpeed);
 
-		if (level < levelSettings.Length)
+		if (level < levelSettings.Length) {
 			Global.WallProgress += levelSettings [level].wallSpeed;
+			if (Global.WallProgress >= 1.0f)
+				OnLevelUp ();
+		}
 	}
 
 	void OnWrong(int oldIndex, int newIndex)
@@ -244,5 +250,18 @@ public class CharacterBehaviour : MonoBehaviour {
 		oldCharacter.ForceTurnBack ();
 
 		bottomHUD.AddBonus (-0.25f * timebarBonus);
+	}
+
+	void OnLevelUp()
+	{
+		//reset
+		Global.WallProgress = 0.0f;
+		level++;
+		if (level >= levelSettings.Length)
+			level = levelSettings.Length - 1;
+		_levelInitialized = false;
+
+		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+		levelText.text = level.ToString ();
 	}
 }
