@@ -62,7 +62,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+		SpawnPoint.GetComponent<MeshRenderer> ().enabled = false;
+
 		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
 
 		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
