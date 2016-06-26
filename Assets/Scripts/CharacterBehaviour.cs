@@ -76,7 +76,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
 
-		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+		TextMesh levelText = levelUI.GetComponentInChildren<TextMesh> ();
 		levelText.text = (level + 1).ToString ();
 
 		Vector3 startPos = Door.transform.position;
@@ -314,6 +314,12 @@ public class CharacterBehaviour : MonoBehaviour {
 			level = 0;
 			_levelInitialized = false;
 			gameoverUI.SetActive (false);
+
+			TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
+			levelText.text = (level + 1).ToString ();
+			bottomHUD.Reset ();
+			Global.WallFace = null;
+			Global.ChangeWallFace = true;
 
 			GameObject.Find ("music").GetComponent<AudioSource> ().Play ();
 		}

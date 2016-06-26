@@ -35,7 +35,6 @@ public class BottomHUD : MonoBehaviour {
 		if (_prograssBar.Value < 0) {
 			//GAME OVER
 			gameSetttings.OnGameOver();
-			_prograssBar.Value = 1.0f;
 		}
 
 		if (_oldScore != _totalScore) {
@@ -50,15 +49,19 @@ public class BottomHUD : MonoBehaviour {
 		if (_prograssBar.Value > 1)
 			_prograssBar.Value = 1.0f;
 		else if (_prograssBar.Value < 0) {
-			_prograssBar.Value = 0.0f;
 			//GAME OVER
 			gameSetttings.OnGameOver();
-			_prograssBar.Value = 1.0f;
 		}		
 	}
 
 	public void AddScore(int delta)
 	{
 		_totalScore += delta;
+	}
+
+	public void Reset()
+	{
+		_totalScore = 0;
+		_prograssBar.Value = 1.0f;
 	}
 }
