@@ -50,7 +50,8 @@ public class CharacterBehaviour : MonoBehaviour {
 	public GameObject SpawnPoint;
 	public GameObject EndPoint;
 	public GameObject Door;
-	public float SpawnDistance;
+	public float SpawnDistance;		// a.k.a start walking distance
+	public float StopWalkingDistance = 1.8f;
 	public int SpawnCount;
 
 	private Vector3 spawnDir;
@@ -109,25 +110,22 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		_accTime += Time.deltaTime;
 
-		if (_moveOrWait == false && !_forceWait && _accTime > curWaitTime) {
-			//transform to walk
-			foreach (GameObject character in characters) {
-				Character curCharacter = character.GetComponent<Character> ();
-				curCharacter.Walk ();
-			}
+		if (_moveOrWait == false && !_forceWait && _accTime > curWaitTime) 
+		{
+			// Only the first one in the queue moves according to current level's wait time / walk time.
+			characters [_realQueue [0]].GetComponent<Character> ().Walk ();
+
 			_accTime = 0.0f;
 			_moveOrWait = true;
 		}
 		else if (_moveOrWait == true && (_forceWait || _accTime > curWalkTime))
-			{
-				//transform to wait
-				foreach (GameObject character in characters) {
-					Character curCharacter = character.GetComponent<Character> ();
-					curCharacter.Stop ();
-				}
-				_accTime = 0.0f;
-				_moveOrWait = false;
-			}
+		{
+			// Only the first one in the queue moves according to current level's wait time / walk time.
+			characters [_realQueue [0]].GetComponent<Character> ().Stop ();
+
+			_accTime = 0.0f;
+			_moveOrWait = false;
+		}
 
 		UpdateQueue ();
 	}
@@ -151,24 +149,20 @@ public class CharacterBehaviour : MonoBehaviour {
 		}
 
 		//check refilling
-		if (!_moveOrWait) {
-			for (int i = 1; i < SpawnCount; i++) {
-				int frontId = _realQueue [i - 1];
-				int curId = _realQueue [i];
-				GameObject frontObj = characters [frontId];
-				GameObject curObj = characters [curId];
-				Vector3 vDist = frontObj.transform.position - curObj.transform.position;
-				if (vDist.sqrMagnitude > SpawnDistance * SpawnDistance) {
-					//move back obj forward
-					for (int j = i; j < SpawnCount; j++) {
-						int curIndex = _realQueue [j];
-						characters [curIndex].GetComponent<Character> ().Walk ();
-					}
-					break;
-				} else {
-					characters [curId].GetComponent<Character> ().Stop ();
-				}
-			}
+		for (int i = 1; i < SpawnCount; i++) 
+		{
+			int frontId = _realQueue [i - 1];
+			int curId = _realQueue [i];
+			GameObject frontObj = characters [frontId];
+			GameObject curObj = characters [curId];
+			Vector3 vDist = frontObj.transform.position - curObj.transform.position;
+			Character curChar = curObj.GetComponent<Character> ();
+
+			if (!curChar.IsWalking() && vDist.sqrMagnitude > SpawnDistance * SpawnDistance) 
+				curChar.Walk ();
+
+			if (curChar.IsWalking() && vDist.sqrMagnitude < StopWalkingDistance * StopWalkingDistance)
+				curChar.Stop ();
 		}
 	}
 
