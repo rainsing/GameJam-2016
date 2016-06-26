@@ -302,6 +302,8 @@ public class CharacterBehaviour : MonoBehaviour {
 		if (!gameOvering) {
 			gameoverUI.SetActive (true);
 			gameOvering = true;
+
+			GameObject.Find ("music").GetComponent<AudioSource> ().Stop ();
 		}
 	}
 
@@ -312,6 +314,8 @@ public class CharacterBehaviour : MonoBehaviour {
 			level = 0;
 			_levelInitialized = false;
 			gameoverUI.SetActive (false);
+
+			GameObject.Find ("music").GetComponent<AudioSource> ().Play ();
 		}
 	}
 }
