@@ -81,6 +81,9 @@ public class Character : MonoBehaviour
 
 	void Update ()
 	{
+		if (gameSetttings.GameOvering)
+			return;
+		
 		if (_moveState) 
 		{
 			m_AccumulatedTime += Time.deltaTime;

@@ -59,6 +59,13 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	private int[] _realQueue;
 
+	private bool gameOvering = false;
+	public bool GameOvering
+	{
+		get { return gameOvering; }
+		set { gameOvering = value; }
+	}
+
 
 	// Use this for initialization
 	void Start () {
@@ -92,6 +99,9 @@ public class CharacterBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameOvering)
+			return;
+		
 		if (!_levelInitialized) {
 			_accTime = 0.0f;
 			_forceWait = false;
@@ -287,6 +297,19 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void OnGameOver()
 	{
-		gameoverUI.SetActive (true);
+		if (!gameOvering) {
+			gameoverUI.SetActive (true);
+			gameOvering = true;
+		}
+	}
+
+	public void OnRetry()
+	{
+		if (gameOvering) {
+			gameOvering = false;
+			level = 0;
+			_levelInitialized = false;
+			gameoverUI.SetActive (false);
+		}
 	}
 }

@@ -35,6 +35,7 @@ public class BottomHUD : MonoBehaviour {
 		if (_prograssBar.Value < 0) {
 			//GAME OVER
 			gameSetttings.OnGameOver();
+			_prograssBar.Value = 1.0f;
 		}
 
 		if (_oldScore != _totalScore) {
@@ -52,6 +53,7 @@ public class BottomHUD : MonoBehaviour {
 			_prograssBar.Value = 0.0f;
 			//GAME OVER
 			gameSetttings.OnGameOver();
+			_prograssBar.Value = 1.0f;
 		}		
 	}
 
