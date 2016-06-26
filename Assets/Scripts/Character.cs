@@ -110,8 +110,20 @@ public class Character : MonoBehaviour
 		if (m_Turning) 
 		{
 			m_TurnTimer -= Time.deltaTime;
+
 			if (_waitingForKick)
-				transform.localScale *= 1.01f;
+			{
+				// "Motion stretch" effect.
+				Vector3 newLocalScale = this.transform.localScale;
+				newLocalScale.y *= 1.1f;
+				newLocalScale.x *= 0.99f;
+				transform.localScale = newLocalScale;
+
+				Vector3 newPosition = this.transform.position;
+				newPosition.y += newPosition.y * Time.deltaTime * 8.0f;
+				this.transform.position = newPosition;
+			}
+
 			if (m_TurnTimer <= 0.0f) {
 				m_Turning = false;
 				m_SpriteFace.enabled = false;
