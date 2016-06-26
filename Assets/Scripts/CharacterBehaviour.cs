@@ -77,7 +77,7 @@ public class CharacterBehaviour : MonoBehaviour {
 		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
 
 		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
-		levelText.text = level.ToString ();
+		levelText.text = (level + 1).ToString ();
 
 		Vector3 startPos = Door.transform.position;
 		spawnDir = startPos - SpawnPoint.transform.position;
@@ -294,7 +294,7 @@ public class CharacterBehaviour : MonoBehaviour {
 		_levelInitialized = false;
 
 		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
-		levelText.text = level.ToString ();
+		levelText.text = (level + 1).ToString ();
 	}
 
 	public void OnGameOver()

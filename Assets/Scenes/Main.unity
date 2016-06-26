@@ -1856,6 +1856,10 @@ Prefab:
       propertyPath: m_FontData.m_FontStyle
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 136782, guid: 5a88f9bae8d0442ec84b01677f008154, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a88f9bae8d0442ec84b01677f008154, type: 2}
   m_IsPrefabParent: 0
