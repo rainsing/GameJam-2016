@@ -202,12 +202,16 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void SetCurPick(int index)
 	{
+		Character curCharacter = characters [index].GetComponent<Character> ();
+		Global.ChangeWallFace = true;
+		Global.WallFace = faceArray[curCharacter.FaceIndex];
+
 		if (_oldCharacterIndex == -1 || _oldCharacterIndex == index) {
 			_oldCharacterIndex = index;
 			return;
 		} 
 
-		Character curCharacter = characters [index].GetComponent<Character> ();
+
 		Character oldCharacter = characters [_oldCharacterIndex].GetComponent<Character> ();
 		if (curCharacter.FaceIndex == oldCharacter.FaceIndex) {
 			OnCorrect (_oldCharacterIndex, index);
@@ -216,6 +220,8 @@ public class CharacterBehaviour : MonoBehaviour {
 			OnWrong (_oldCharacterIndex, index);
 			_oldCharacterIndex = -1;
 		}
+
+
 	}
 
 	void OnCorrect(int oldIndex, int newIndex)
@@ -231,8 +237,10 @@ public class CharacterBehaviour : MonoBehaviour {
 		bottomHUD.AddBonus (timebarBonus);
 		bottomHUD.AddScore (scoreSpeed);
 
-		if (level < levelSettings.Length)
+		if (level < levelSettings.Length) {
 			Global.WallProgress += levelSettings [level].wallSpeed;
+		}
+			
 	}
 
 	void OnWrong(int oldIndex, int newIndex)

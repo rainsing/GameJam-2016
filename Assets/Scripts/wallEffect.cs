@@ -24,8 +24,9 @@ public class wallEffect : MonoBehaviour {
 //		GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 
 		//if (Input.GetMouseButtonDown (0))
+		if(Global.ChangeWallFace==true)
 		{
-
+			Global.ChangeWallFace = false;
 			Vector3 start = person_start.transform.position;
 			Vector3 end = person_end.transform.position;
 
@@ -53,6 +54,7 @@ public class wallEffect : MonoBehaviour {
 			Vector3 scale = start_scale+(end_scale - start_scale)*random;
 			GameObject.Destroy (person);
 			person = GameObject.Instantiate (person_start);
+			person.GetComponent<SpriteRenderer> ().sprite = Global.WallFace;
 
 			if (isMesh) {
 				person.transform.parent = transform;
