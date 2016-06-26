@@ -64,6 +64,11 @@ public class wallEffect : MonoBehaviour {
 			person.transform.localScale = scale;
 			person.transform.localRotation = person_start.transform.localRotation;
 
+			person.transform.position = person_mid_2.transform.position;
+			person.transform.localScale = person_mid_2.transform.localScale;
+			person.transform.localRotation = person_mid_2.transform.localRotation;
+
+
 
 			person.SetActive (true);
 

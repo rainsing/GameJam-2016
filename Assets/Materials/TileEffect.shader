@@ -55,8 +55,8 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 				col = 1-col;
 				//float f = (1.0f-i.uv.x/50.0f) - _FinalScale;
-				float f = (i.uv.x/50.0f) - _FinalScale;
-				if(f<0.0f){
+				float f = (i.uv.x/20.0f) - _FinalScale;
+				if(f<0.0f && i.uv.y>0.35f){
 					col = 1.0f-col;
 				}
 
