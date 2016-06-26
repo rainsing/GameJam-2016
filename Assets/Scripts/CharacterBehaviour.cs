@@ -6,13 +6,20 @@ public class CharacterBehaviour : MonoBehaviour {
 	public GameObject bottomUI;
 	BottomHUD bottomHUD;
 	public int scoreSpeed = 100;
-	public float[] timebarSpeed;
 	public float timebarBonus = 0.2f;
+
+	[System.Serializable]
+	public class LevelSettings
+	{
+		public float timebarSpeed = 0.02f;
+		public float wallSpeed = 0.02f;
+		public float waitTime = 3.0f;
+		public float walkTime = 1.0f;
+	}
+	public LevelSettings[] levelSettings;
 
 	public GameObject characterPrefab;
 	GameObject[] characters;
-	public float[] waitTime;
-	public float[] walkTime;
 	public int level = 0;
 	bool _moveOrWait = true;
 	bool _forceWait = false;
@@ -81,10 +88,10 @@ public class CharacterBehaviour : MonoBehaviour {
 			_forceWait = false;
 			_moveOrWait = false;
 
-			if (level < waitTime.Length && level < walkTime.Length && level < timebarSpeed.Length) {
-				curWaitTime = waitTime [level];
-				curWalkTime = walkTime [level];
-				bottomHUD.TimeBarSpeed = timebarSpeed [level];
+			if (level < levelSettings.Length) {
+				curWaitTime = levelSettings [level].waitTime;
+				curWalkTime = levelSettings [level].walkTime;
+				bottomHUD.TimeBarSpeed = levelSettings [level].timebarSpeed;
 			}
 			_levelInitialized = true;
 
@@ -195,7 +202,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void SetCurPick(int index)
 	{
-		if (_oldCharacterIndex == -1) {
+		if (_oldCharacterIndex == -1 || _oldCharacterIndex == index) {
 			_oldCharacterIndex = index;
 			return;
 		} 
@@ -223,6 +230,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		bottomHUD.AddBonus (timebarBonus);
 		bottomHUD.AddScore (scoreSpeed);
+
+		if (level < levelSettings.Length)
+			Global.WallProgress += levelSettings [level].wallSpeed;
 	}
 
 	void OnWrong(int oldIndex, int newIndex)
