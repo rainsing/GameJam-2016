@@ -110,11 +110,14 @@ public class Character : MonoBehaviour
 		if (m_Turning) 
 		{
 			m_TurnTimer -= Time.deltaTime;
+			if (_waitingForKick)
+				transform.localScale *= 1.01f;
 			if (m_TurnTimer <= 0.0f) {
 				m_Turning = false;
 				m_SpriteFace.enabled = false;
 				if (_waitingForKick) {
 					_waitingForKick = false;
+					transform.localScale = new Vector3 (1, 1, 1);
 					gameSetttings.KickBack (_index);
 				}
 			}
