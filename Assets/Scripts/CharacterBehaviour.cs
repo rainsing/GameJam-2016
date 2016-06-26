@@ -181,6 +181,12 @@ public class CharacterBehaviour : MonoBehaviour {
 		int lastIndex = _realQueue [SpawnCount - 1];
 		GameObject curObj = characters [index];
 		curObj.transform.position = characters[lastIndex].transform.position - SpawnDistance * faceDir;
+
+		// Make sure kicked back characters remain on the ground.
+		Vector3 leveledPosition = curObj.transform.position;
+		leveledPosition.y = SpawnPoint.transform.position.y + 3.03f;
+		curObj.transform.position = leveledPosition;
+
 		Restart (index);
 		RestartPos (index);
 	}

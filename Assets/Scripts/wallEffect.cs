@@ -70,7 +70,8 @@ public class wallEffect : MonoBehaviour {
 
 			//Global.WallProgress += 0.05f;
 			if (isMesh) {
-				GetComponent<MeshRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
+				GameObject.Find("Tile").GetComponent<MeshRenderer>().material.SetFloat ("_FinalScale", Global.WallProgress);
+				//GetComponent<MeshRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 			} else {
 				GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 			}
