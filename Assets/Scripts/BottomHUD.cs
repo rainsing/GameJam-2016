@@ -8,6 +8,7 @@ public class BottomHUD : MonoBehaviour {
 	private int _totalScore = 0;
 	private int _oldScore = 0;
 	//static private float _barHeight = 6.0f;
+	private CharacterBehaviour gameSetttings;
 
 	private float timebarSpeed = 0.02f;
 	public float TimeBarSpeed {
@@ -22,6 +23,8 @@ public class BottomHUD : MonoBehaviour {
 
 		_scoreText = GetComponentInChildren<TextMesh> ();
 		_scoreText.text = _totalScore.ToString();
+
+		gameSetttings = GameObject.FindGameObjectWithTag ("GameController").GetComponent<CharacterBehaviour>();
 	}
 	
 	// Update is called once per frame
@@ -31,7 +34,7 @@ public class BottomHUD : MonoBehaviour {
 		_prograssBar.Value -= deltaPrograss;
 		if (_prograssBar.Value < 0) {
 			//GAME OVER
-			_prograssBar.Value += 1.0f;
+			gameSetttings.OnGameOver();
 		}
 
 		if (_oldScore != _totalScore) {
@@ -48,6 +51,7 @@ public class BottomHUD : MonoBehaviour {
 		else if (_prograssBar.Value < 0) {
 			_prograssBar.Value = 0.0f;
 			//GAME OVER
+			gameSetttings.OnGameOver();
 		}		
 	}
 
