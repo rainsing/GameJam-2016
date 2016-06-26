@@ -72,6 +72,7 @@ public class CharacterBehaviour : MonoBehaviour {
 	void Start () 
 	{
 		SpawnPoint.GetComponent<MeshRenderer> ().enabled = false;
+		EndPoint.GetComponent<MeshRenderer> ().enabled = false;
 
 		bottomHUD = bottomUI.GetComponent<BottomHUD> ();
 
