@@ -23,7 +23,8 @@ public class wallEffect : MonoBehaviour {
 //		}
 //		GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 
-		if (Input.GetMouseButtonDown (0)) {
+		//if (Input.GetMouseButtonDown (0))
+		{
 
 			Vector3 start = person_start.transform.position;
 			Vector3 end = person_end.transform.position;
@@ -65,9 +66,9 @@ public class wallEffect : MonoBehaviour {
 			person.SetActive (true);
 
 
-			Global.WallProgress += 0.05f;
+			//Global.WallProgress += 0.05f;
 			if (isMesh) {
-				//GetComponent<MeshRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
+				GetComponent<MeshRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 			} else {
 				GetComponent<SpriteRenderer> ().material.SetFloat ("_FinalScale", Global.WallProgress);
 			}

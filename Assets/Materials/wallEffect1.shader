@@ -53,11 +53,14 @@
 			{
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
-				float f = (1.0f-i.uv.x) - _FinalScale;
+				float f = (1.0f-i.uv.x/100.0f) - _FinalScale;
 				if(f<0.0f){
 					//col.g = 1.0f;
 					col = 1.0f-col;
 				}
+
+				//col = (1.0f - i.uv.x/100.0f)-_FinalScale;
+				//col = _FinalScale;
 
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
