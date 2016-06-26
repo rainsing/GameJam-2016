@@ -206,9 +206,11 @@ public class CharacterBehaviour : MonoBehaviour {
 	{
 		Debug.Log ("Correct!!!!!");
 		//after short time with face, return back
-		KickBack(oldIndex);
-		KickBack (newIndex);
+		Character curCharacter = characters [newIndex].GetComponent<Character> ();
+		Character oldCharacter = characters [oldIndex].GetComponent<Character> ();
 
+		curCharacter.PrepareForKick ();
+		oldCharacter.PrepareForKick ();
 	}
 
 	void OnWrong(int oldIndex, int newIndex)

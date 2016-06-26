@@ -27,6 +27,8 @@ public class Character : MonoBehaviour
 
 	private CharacterBehaviour gameSetttings;
 
+	private bool _waitingForKick = false;
+
 	private int _index;
 	public int Index
 	{
@@ -111,6 +113,10 @@ public class Character : MonoBehaviour
 			if (m_TurnTimer <= 0.0f) {
 				m_Turning = false;
 				m_SpriteFace.enabled = false;
+				if (_waitingForKick) {
+					_waitingForKick = false;
+					gameSetttings.KickBack (_index);
+				}
 			}
 		}
 
@@ -157,6 +163,14 @@ public class Character : MonoBehaviour
 		if (Vector3.Dot (dir0, dir1) < 0) {
 			transform.position -= _faceDir * gameSetttings.SpawnCount * gameSetttings.SpawnDistance;
 			gameSetttings.Restart (Index);
+		}
+	}
+
+	public void PrepareForKick()
+	{
+		if (m_Turning) {
+			m_TurnTimer = forceBackDuration;
+			_waitingForKick = true;
 		}
 	}
 }
