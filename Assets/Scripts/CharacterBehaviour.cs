@@ -10,6 +10,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public GameObject levelUI;
 
+	public GameObject gameoverUI;
+
 
 	[System.Serializable]
 	public class LevelSettings
@@ -18,6 +20,7 @@ public class CharacterBehaviour : MonoBehaviour {
 		public float wallSpeed = 0.02f;
 		public float waitTime = 3.0f;
 		public float walkTime = 1.0f;
+		public int faceCount = 2;
 	}
 	public LevelSettings[] levelSettings;
 
@@ -190,7 +193,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void Restart(int index)
 	{
-		int faceID = Mathf.FloorToInt(Random.value * faceArray.Length - 0.0001f);
+		int faceCount = Mathf.Min (faceArray.Length, levelSettings [level].faceCount);
+		int faceID = Mathf.FloorToInt(Random.value * faceCount - 0.0001f);
 		Character curCharacter = characters [index].GetComponent<Character> ();
 		curCharacter.SetFace (faceArray [faceID], faceID);
 		int bodyID = Mathf.FloorToInt (Random.value * bodyArray.Length - 0.0001f);
@@ -283,5 +287,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
 		TextMesh levelText = levelUI.GetComponentsInChildren<TextMesh> ()[1];
 		levelText.text = level.ToString ();
+	}
+
+	public void OnGameOver()
+	{
+		gameoverUI.SetActive (true);
 	}
 }
